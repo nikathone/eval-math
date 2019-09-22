@@ -9,9 +9,10 @@
 
 namespace Webit\Util\EvalMath\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Webit\Util\EvalMath\EvalMath;
 
-class EvalMathTest extends \PHPUnit_Framework_TestCase
+class EvalMathTest extends TestCase
 {
     /**
      * @var EvalMath

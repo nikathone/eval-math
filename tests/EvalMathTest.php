@@ -10,7 +10,7 @@
 namespace Webit\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Webit\Util\EvalMath\EvalMath;
+use SergeR\Util\EvalMath\EvalMath;
 
 class EvalMathTest extends TestCase
 {

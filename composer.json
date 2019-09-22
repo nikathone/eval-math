@@ -15,7 +15,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"Webit\\Util\\EvalMath\\" : "src/"
+			"SergeR\\Util\\EvalMath\\" : "src/"
 		}
 	},
     "extra": {

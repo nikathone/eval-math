@@ -1,5 +1,5 @@
 <?php
-namespace Webit\Util\EvalMath;
+namespace SergeR\Util\EvalMath;
 
 /**
  * Class Stack

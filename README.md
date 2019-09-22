@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/SergeR/eval-math.svg?branch=master)](https://travis-ci.org/SergeR/eval-math)
+[![Coverage Status](https://coveralls.io/repos/github/SergeR/eval-math/badge.svg?branch=master)](https://coveralls.io/github/SergeR/eval-math?branch=master)
 
 Composer/Packagist version of EvalMath by Miles Kaufman
 Copyright (C) 2005 Miles Kaufmann <http://www.twmagic.com/>

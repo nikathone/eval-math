@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/SergeR/eval-math.svg?branch=master)](https://travis-ci.org/SergeR/eval-math)
+
 Composer/Packagist version of EvalMath by Miles Kaufman
 Copyright (C) 2005 Miles Kaufmann <http://www.twmagic.com/>
 NAME

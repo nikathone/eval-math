@@ -28,6 +28,7 @@ class EvalMath
     const NAME_PATTERN = '[a-z][a-z0-9_]*';
 
     /**
+     * @deprecated
      * @var bool
      */
     public $suppress_errors = false;
@@ -75,6 +76,19 @@ class EvalMath
     /**
      * @param string $expr
      * @return mixed
+     * @throws BuiltInFunctionRedefinitionException
+     * @throws ConstantAssignmentException
+     * @throws DivisionByZeroException
+     * @throws ExpectingTokenException
+     * @throws IllegalCharacterException
+     * @throws InternalErrorException
+     * @throws InvalidArgumentCountException
+     * @throws OperatorLacksOperandException
+     * @throws OperatorRequiredException
+     * @throws UndefinedVariableException
+     * @throws UndefinedVariableInFunctionDefinitionException
+     * @throws UnexpectedOperatorException
+     * @throws UnexpectedTokenException
      */
     public function e($expr)
     {
@@ -84,9 +98,19 @@ class EvalMath
     /**
      * @param string $expr
      * @return mixed
-     * @throws ConstantAssignmentException
      * @throws BuiltInFunctionRedefinitionException
+     * @throws ConstantAssignmentException
+     * @throws DivisionByZeroException
+     * @throws ExpectingTokenException
+     * @throws IllegalCharacterException
+     * @throws InternalErrorException
+     * @throws InvalidArgumentCountException
+     * @throws OperatorLacksOperandException
+     * @throws OperatorRequiredException
+     * @throws UndefinedVariableException
      * @throws UndefinedVariableInFunctionDefinitionException
+     * @throws UnexpectedOperatorException
+     * @throws UnexpectedTokenException
      */
     public function evaluate($expr)
     {
@@ -158,7 +182,14 @@ class EvalMath
      *
      * @param $expr
      * @return array|bool
+     * @throws ExpectingTokenException
      * @throws IllegalCharacterException
+     * @throws InternalErrorException
+     * @throws InvalidArgumentCountException
+     * @throws OperatorLacksOperandException
+     * @throws OperatorRequiredException
+     * @throws UnexpectedOperatorException
+     * @throws UnexpectedTokenException
      */
     public function nfx($expr)
     {
@@ -342,6 +373,9 @@ class EvalMath
      * @param $tokens
      * @param array $vars
      * @return bool|mixed|null
+     * @throws DivisionByZeroException
+     * @throws InternalErrorException
+     * @throws UndefinedVariableException
      */
     public function pfx($tokens, $vars = array())
     {

@@ -5,6 +5,21 @@
 
 namespace SergeR\Util\EvalMath;
 
+use SergeR\Util\EvalMath\Exception\AbstractEvalMathException;
+use SergeR\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
+use SergeR\Util\EvalMath\Exception\ConstantAssignmentException;
+use SergeR\Util\EvalMath\Exception\DivisionByZeroException;
+use SergeR\Util\EvalMath\Exception\ExpectingTokenException;
+use SergeR\Util\EvalMath\Exception\IllegalCharacterException;
+use SergeR\Util\EvalMath\Exception\InternalErrorException;
+use SergeR\Util\EvalMath\Exception\InvalidArgumentCountException;
+use SergeR\Util\EvalMath\Exception\OperatorLacksOperandException;
+use SergeR\Util\EvalMath\Exception\OperatorRequiredException;
+use SergeR\Util\EvalMath\Exception\UndefinedVariableException;
+use SergeR\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
+use SergeR\Util\EvalMath\Exception\UnexpectedOperatorException;
+use SergeR\Util\EvalMath\Exception\UnexpectedTokenException;
+
 /**
  * Class EvalMath
  */
@@ -69,6 +84,9 @@ class EvalMath
     /**
      * @param string $expr
      * @return mixed
+     * @throws ConstantAssignmentException
+     * @throws BuiltInFunctionRedefinitionException
+     * @throws UndefinedVariableInFunctionDefinitionException
      */
     public function evaluate($expr)
     {
@@ -79,7 +97,7 @@ class EvalMath
         // is it a variable assignment?
         if (preg_match('/^\s*([a-z]\w*)\s*=\s*(.+)$/', $expr, $matches)) {
             if (in_array($matches[1], $this->vb)) { // make sure we're not assigning to a constant
-                return $this->trigger("cannot assign to constant '$matches[1]'");
+                throw new ConstantAssignmentException([':constant' => $matches[1]]);
             }
             if (($tmp = $this->pfx($this->nfx($matches[2]))) === false) return false; // get the result and make sure it's good
             $this->v[$matches[1]] = $tmp; // if so, stick it in the variable array
@@ -89,7 +107,7 @@ class EvalMath
         } elseif (preg_match('/^\s*([a-z]\w*)\s*\(\s*([a-z]\w*(?:\s*,\s*[a-z]\w*)*)\s*\)\s*=\s*(.+)$/', $expr, $matches)) {
             $fnn = $matches[1]; // get the function name
             if (in_array($matches[1], $this->fb)) { // make sure it isn't built in
-                return $this->trigger("cannot redefine built-in function '$matches[1]()'");
+                throw new BuiltInFunctionRedefinitionException([':function' =>$matches[1]]);
             }
             $args = explode(",", preg_replace("/\s+/", "", $matches[2])); // get the arguments
             if (($stack = $this->nfx($matches[3])) === false) return false; // see if it can be converted to postfix
@@ -99,7 +117,7 @@ class EvalMath
                     if (array_key_exists($token, $this->v)) {
                         $stack[$i] = $this->v[$token];
                     } else {
-                        return $this->trigger("undefined variable '$token' in function definition");
+                        throw new UndefinedVariableInFunctionDefinitionException([':token'=>$token]);
                     }
                 }
             }
@@ -135,7 +153,13 @@ class EvalMath
 
     //===================== HERE BE INTERNAL METHODS ====================\\
 
-    // Convert infix to postfix notation
+    /**
+     * Convert infix to postfix notation
+     *
+     * @param $expr
+     * @return array|bool
+     * @throws IllegalCharacterException
+     */
     public function nfx($expr)
     {
 
@@ -153,7 +177,7 @@ class EvalMath
                                // and determining when a - is a negation
     
         if (preg_match('/[^\%\w\s+*^\/()\.,-<>=]/', $expr, $matches)) { // make sure the characters are all good
-            return $this->trigger("illegal character '{$matches[0]}'");
+            throw new IllegalCharacterException([':character'=>$matches[0]]);
         }
 
         while(1) { // 1 Infinite Loop ;)
@@ -169,14 +193,18 @@ class EvalMath
             if ($op == '-' and !$expecting_op) { // is it a negation instead of a minus?
                 $stack->push('_'); // put a negation on the stack
                 $index++;
-            } elseif ($op == '_') { // we have to explicitly deny this, because it's legal on the stack 
-                return $this->trigger("illegal character '_'"); // but not in the input expression
+            } elseif ($op == '_') { // we have to explicitly deny this, because it's legal on the stack
+                throw new IllegalCharacterException([':character'=>'_']);
             //===============
             } elseif ((in_array($op, $ops) or $ex) and $expecting_op) { // are we putting an operator on the stack?
                 if ($ex) { // are we expecting an operator but have a number/variable/function/opening parethesis?
-                    return $this->trigger('Operator need');
+                    throw new OperatorRequiredException();
+                    /*
+                     * Implicit multiplication currently is not supported
+                     *
                     $op = '*';
                     $index--; // it's an implicit multiplication
+                    */
                 }
                 // heart of the algorithm:
                 while($stack->count > 0 and ($o2 = $stack->last()) and in_array($o2, $ops) and ($ops_r[$op] ? $ops_p[$op] < $ops_p[$o2] : $ops_p[$op] <= $ops_p[$o2])) {
@@ -190,7 +218,7 @@ class EvalMath
             } elseif ($op == ')' and $expecting_op) { // ready to close a parenthesis?
                 while (($o2 = $stack->pop()) != '(') { // pop off the stack back to the last (
                     if (null === $o2) {
-                        return $this->trigger("unexpected ')'");
+                        throw new UnexpectedTokenException(['token'=>')']);
                     } else {
                         $output[] = $o2;
                     }
@@ -202,20 +230,20 @@ class EvalMath
                     $output[] = array('fn' => $fn, 'fnn' => $fnn, 'argcount' => $arg_count); // send function to output
                     if (in_array($fnn, $this->fb)) { // check the argument count
                         if ($arg_count > 1) {
-                            return $this->trigger("Wrong number of arguments");
+                            throw new InvalidArgumentCountException();
                         }
                     } elseif (isset($this->fc[$fnn])) {
                         $counts = $this->fc[$fnn];
                         if (in_array(-1, $counts) and $arg_count > 0) {
                         } elseif (!in_array($arg_count, $counts)) {
-                            return $this->trigger("Wrong number of arguments");
+                            throw new InvalidArgumentCountException();
                         }
                     } elseif (array_key_exists($fnn, $this->f)) {
                         if ($arg_count != count($this->f[$fnn]['args'])) {
-                            return $this->trigger("Wrong number of arguments");
+                            throw new InvalidArgumentCountException();
                         }
                     } else { // did we somehow push a non-function on the stack? this should never happen
-                        return $this->trigger("Internal error");
+                        throw new InternalErrorException();
                     }
                 }
                 $index++;
@@ -223,7 +251,7 @@ class EvalMath
             } elseif ($op == ',' and $expecting_op) { // did we just finish a function argument?
                 while (($o2 = $stack->pop()) != '(') {
                     if (null === $o2) {
-                        return $this->trigger("unexpected ','");
+                        throw new UnexpectedTokenException([':token'=>',']);
                     } // oops, never had a (
                     else {
                         $output[] = $o2;
@@ -232,7 +260,7 @@ class EvalMath
                 // make sure there was a function
 //                if (!preg_match("/^([A-Za-z]\w*)\($/", $stack->last(2), $matches)) {
                 if (!preg_match('/^('.self::NAME_PATTERN.')\($/', $stack->last(2), $matches)) {
-                    return $this->trigger("unexpected ','. ");
+                    throw new UnexpectedTokenException([':token'=>',']);
                 }
                 $stack->push($stack->pop()+1); // increment the argument count
                 $stack->push('('); // put the ( back on, we'll need to pop back to it again
@@ -265,7 +293,7 @@ class EvalMath
             //===============
             } elseif ($op == ')') { // miscellaneous error checking
                 if ($stack->last() != '(' or $stack->last(2) != 1) {
-                    return $this->trigger("unexpected ')'");
+                    throw new UnexpectedTokenException([':token' => ')']);
                 }
                 // did we just close a function?
                 if (preg_match('/^(' . static::NAME_PATTERN . ')\($/', $stack->last(3), $matches)) {
@@ -275,34 +303,32 @@ class EvalMath
                     $fnn = $matches[1]; // get the function name
                     $counts = $this->fc[$fnn];
                     if (!in_array(0, $counts)) {
-                        return $this->trigger("wrong number of arguments (0 given, " . implode(' or ', $counts) . " expected)");
+                        throw new InvalidArgumentCountException([':given' => 0, ':accept' => $counts]);
                     }
                     $output[] = array('fn' => $fn, 'fnn' => $fnn, 'argcount' => 0); // send function to output
                     $index++;
                     $expecting_op = true;
-                } else {
-                    return $this->trigger("unexpected ')'");
                 }
+                throw new UnexpectedTokenException([':token' => ')']);
             } elseif (in_array($op, $ops) and !$expecting_op) {
-                return $this->trigger("unexpected operator '$op'");
+                throw new UnexpectedOperatorException([':operator'=>$op]);
             } else { // I don't even want to know what you did to get here
-                return $this->trigger("an unexpected error occurred");
+                throw new InternalErrorException();
             }
             if ($index == strlen($expr)) {
                 if (in_array($op, $ops)) { // did we end with an operator? bad.
-                    return $this->trigger("operator '$op' lacks operand");
-                } else {
-                    break;
+                    throw new OperatorLacksOperandException([':operator' => $op]);
                 }
+                break;
             }
             while (substr($expr, $index, 1) == ' ') { // step the index past whitespace (pretty much turns whitespace 
                 $index++;                             // into implicit multiplication if no operator is there)
             }
         
-        } 
+        }
         while (!is_null($op = $stack->pop())) { // pop everything off the stack and push onto output
             if ($op == '(') { // if there are (s on the stack, ()s were unbalanced
-                return $this->trigger("expecting ')'");
+                throw new ExpectingTokenException([':token' => ')']);
             }
             $output[] = $op;
         }
@@ -310,7 +336,13 @@ class EvalMath
         return $output;
     }
 
-    // evaluate postfix notation
+    /**
+     * evaluate postfix notation
+     *
+     * @param $tokens
+     * @param array $vars
+     * @return bool|mixed|null
+     */
     public function pfx($tokens, $vars = array())
     {
         if ($tokens == false) {
@@ -325,7 +357,7 @@ class EvalMath
                 $argcount = $token['argcount'];
                 if (in_array($fnn, $this->fb)) { // built-in function
                     if (is_null($op1 = $stack->pop())) {
-                        return $this->trigger("internal error");
+                        throw new InternalErrorException();
                     }
                     $fnn = preg_replace("/^arc/", "a", $fnn); // for the 'arc' trig synonyms
                     if ($fnn == 'ln') {
@@ -336,12 +368,12 @@ class EvalMath
                     $args = [];
                     for ($i = $argcount-1; $i >= 0; $i--) {
                         if (null === ($args[] = $stack->pop())) {
-                            return $this->trigger("internal error");
+                            throw new InternalErrorException();
                         }
                     }
                     $res = call_user_func_array(array('SergeR\Util\EvalMath\EvalMathFuncs', $fnn), array_reverse($args));
                     if ($res === FALSE) {
-                        return $this->trigger("internal error");
+                        throw new InternalErrorException();
                     }
                     $stack->push($res);
                 }elseif (array_key_exists($fnn, $this->f)) { // user function
@@ -349,7 +381,7 @@ class EvalMath
                     $args = array();
                     for ($i = count($this->f[$fnn]['args'])-1; $i >= 0; $i--) {
                         if ( null === ($args[$this->f[$fnn]['args'][$i]] = $stack->pop())) {
-                            return $this->trigger("internal error");
+                            throw new InternalErrorException();
                         }
                     }
                     $stack->push($this->pfx($this->f[$fnn]['func'], $args)); // yay... recursion!!!!
@@ -357,10 +389,10 @@ class EvalMath
 // if the token is a binary operator, pop two values off the stack, do the operation, and push the result back on
             } elseif (in_array($token, array('+', '-', '*', '/', '^', '>', '<', '==', '<=', '>=', '%'), true)) {
                 if (is_null($op2 = $stack->pop())) {
-                    return $this->trigger("internal error");
+                    throw new InternalErrorException();
                 }
                 if (is_null($op1 = $stack->pop())) {
-                    return $this->trigger("internal error");
+                    throw new InternalErrorException();
                 }
                 switch ($token) {
                     case '+':
@@ -374,7 +406,7 @@ class EvalMath
                         break;
                     case '/':
                         if ($op2 == 0) {
-                            return $this->trigger("Division by zero");
+                            throw new DivisionByZeroException();
                         }
                         $stack->push($op1 / $op2);
                         break;
@@ -413,31 +445,17 @@ class EvalMath
                 } elseif (array_key_exists($token, $vars)) {
                     $stack->push($vars[$token]);
                 } else {
-                    return $this->trigger("Undefined variable");
+                    throw new UndefinedVariableException();
                 }
             }
         }        // when we're out of tokens, the stack should have a single element, the final result
         if ($stack->count != 1) {
-            return $this->trigger("internal error");
+            throw new InternalErrorException();
         }
         return $stack->pop();
     }
     
-    // trigger an error, but nicely, if need be
-    public function trigger($msg)
-    {
-        $this->last_error = $msg;
-        if (!$this->suppress_errors)
-        {
-            echo "\nError found in:";
-            $this->debugPrintCallingFunction();
-            
-            trigger_error($msg, E_USER_WARNING);
-        }        
-        return false;
-    }
-
-    # Prints the file name, function name, and 
+    # Prints the file name, function name, and
     # line number which called your function
     # (not this function, then one that  called 
     # it to begin with) 

@@ -416,14 +416,14 @@ class EvalMath
                         $fnn = 'log';
                     }
                     eval('$stack->push(' . $fnn . '($op1));'); // perfectly safe eval()
-                } elseif (isset($this->fc[$fnn])) {
+                } elseif (($m = $this->fc->findByName($fnn))) {
                     $args = [];
                     for ($i = $argcount-1; $i >= 0; $i--) {
                         if (null === ($args[] = $stack->pop())) {
                             throw new InternalErrorException();
                         }
                     }
-                    $res = call_user_func_array(array('SergeR\Util\EvalMath\EvalMathFuncs', $fnn), array_reverse($args));
+                    $res = $m->evaluate(...array_reverse($args));
                     if ($res === FALSE) {
                         throw new InternalErrorException();
                     }

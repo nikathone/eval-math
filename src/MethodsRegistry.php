@@ -29,6 +29,10 @@ class MethodsRegistry implements ArrayAccess, Countable
         return $this;
     }
 
+    /**
+     * @param $name
+     * @return AbstractMethod|null
+     */
     public function findByName($name)
     {
         return (isset($this->methods[$name]) and $this->methods[$name] instanceof AbstractMethod) ? $this->methods[$name] : null;
@@ -41,7 +45,8 @@ class MethodsRegistry implements ArrayAccess, Countable
 
     public function offsetGet($offset)
     {
-        return $this->findByName($offset);
+        $m = $this->findByName($offset);
+        return $m ? $m->getArgumentCount() : null;
     }
 
     public function offsetSet($offset, $value)

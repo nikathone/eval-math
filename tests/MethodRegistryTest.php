@@ -32,7 +32,8 @@ class MethodRegistryTest extends TestCase
         $this->assertTrue(isset($this->registry['max']));
 
         $c = $this->registry['max'];
-        $this->assertInstanceOf(Maximum::class, $c);
+        $this->assertTrue(is_array($c));
+//        $this->assertInstanceOf(Maximum::class, $c);
 
         $this->assertEquals(1, $this->registry->count());
         unset($this->registry['max']);

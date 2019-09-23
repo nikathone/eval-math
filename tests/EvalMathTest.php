@@ -7,7 +7,7 @@
  * Copyright (C) 8x8
  */
 
-namespace Webit\Util\EvalMath\Tests;
+namespace SergeR\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
 use SergeR\Util\EvalMath\EvalMath;

@@ -19,6 +19,9 @@ use SergeR\Util\EvalMath\Exception\UndefinedVariableException;
 use SergeR\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
 use SergeR\Util\EvalMath\Exception\UnexpectedOperatorException;
 use SergeR\Util\EvalMath\Exception\UnexpectedTokenException;
+use SergeR\Util\EvalMath\Methods\Conditional;
+use SergeR\Util\EvalMath\Methods\Maximum;
+use SergeR\Util\EvalMath\Methods\Minimum;
 
 /**
  * Class EvalMath
@@ -64,13 +67,28 @@ class EvalMath
     );
 
     // Calc functions
-    public $fc =['average'=>[-1], 'max'=>[-1], 'min'=>[-1], 'iif'=>[3]];
+//    public $fc =['average'=>[-1], 'max'=>[-1], 'min'=>[-1], 'iif'=>[3]];
+    /** @var MethodsRegistry */
+    protected $fc;
 
     public function __construct()
     {
         // make the variables a little more accurate
         $this->v['pi'] = pi();
         $this->v['e'] = exp(1);
+        $this->fc = (new MethodsRegistry)
+            ->set(new Conditional)
+            ->set((new Conditional)->setName('iif'))
+            ->set(new Maximum)
+            ->set(new Minimum);
+    }
+
+    /**
+     * @return MethodsRegistry
+     */
+    public function getMethodsRegistry()
+    {
+        return $this->fc;
     }
 
     /**
@@ -398,14 +416,14 @@ class EvalMath
                         $fnn = 'log';
                     }
                     eval('$stack->push(' . $fnn . '($op1));'); // perfectly safe eval()
-                } elseif (isset($this->fc[$fnn])) {
+                } elseif (($m = $this->fc->findByName($fnn))) {
                     $args = [];
                     for ($i = $argcount-1; $i >= 0; $i--) {
                         if (null === ($args[] = $stack->pop())) {
                             throw new InternalErrorException();
                         }
                     }
-                    $res = call_user_func_array(array('SergeR\Util\EvalMath\EvalMathFuncs', $fnn), array_reverse($args));
+                    $res = $m->evaluate(...array_reverse($args));
                     if ($res === FALSE) {
                         throw new InternalErrorException();
                     }

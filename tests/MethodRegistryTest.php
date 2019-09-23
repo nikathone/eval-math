@@ -9,6 +9,7 @@ namespace SergeR\Util\EvalMath\Tests;
 
 
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use SergeR\Util\EvalMath\Methods\Maximum;
 use SergeR\Util\EvalMath\MethodsRegistry;
 
@@ -28,9 +29,26 @@ class MethodRegistryTest extends TestCase
 
         $c = $this->registry->findByName('max');
         $this->assertInstanceOf(Maximum::class, $c);
+        $this->assertTrue(isset($this->registry['max']));
+
+        $c = $this->registry['max'];
+        $this->assertInstanceOf(Maximum::class, $c);
+
+        $this->assertEquals(1, $this->registry->count());
+        unset($this->registry['max']);
+        $this->assertEquals(0, $this->registry->count());
+
 
         $r = $this->registry->unsetByName('max');
         $this->assertInstanceOf(MethodsRegistry::class, $r);
+    }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testOffsetSetException()
+    {
+        $this->registry['max'] = new Maximum();
     }
 
 }

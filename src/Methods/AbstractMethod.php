@@ -19,6 +19,12 @@ abstract class AbstractMethod
         return $this->name;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+        return clone $this;
+    }
+
     public function getArgumentCount()
     {
         return $this->argument_count;

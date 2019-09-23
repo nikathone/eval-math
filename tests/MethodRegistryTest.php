@@ -52,4 +52,12 @@ class MethodRegistryTest extends TestCase
         $this->registry['max'] = new Maximum();
     }
 
+    public function testAliases()
+    {
+        $this->registry = new MethodsRegistry();
+        $this->registry->set(new Maximum())->set((new Maximum)->setName('mmaaxx'));
+        $this->assertEquals(2, $this->registry->count());
+        $this->assertTrue(isset($this->registry['max']));
+        $this->assertTrue(isset($this->registry['mmaaxx']));
+    }
 }

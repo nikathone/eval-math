@@ -19,7 +19,7 @@ class MethodsRegistry implements ArrayAccess, Countable
 
     public function set(AbstractMethod $method)
     {
-        $this->methods[$method->getName()] = $method;
+        $this->methods[$method->getName()] = clone $method;
         return $this;
     }
 

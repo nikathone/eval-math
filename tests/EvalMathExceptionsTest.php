@@ -99,6 +99,34 @@ class EvalMathExceptionsTest extends TestCase
     /**
      * @throws AbstractEvalMathException
      */
+    public function testInvalidArgumentFuncCountException()
+    {
+        $this->expectException(InvalidArgumentCountException::class);
+        $this->EvalMath->e('iif(1)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testInvalidArgumentFuncCountException2()
+    {
+        $this->expectException(InvalidArgumentCountException::class);
+        $this->EvalMath->e('iif()');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testInvalidArgumentUserFuncCountException()
+    {
+        $this->expectException(InvalidArgumentCountException::class);
+        $this->EvalMath->e('f(a,b) = a+b');
+        $this->EvalMath->e('f(1)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
     public function testOperatorLacksOperandException()
     {
         $this->expectException(OperatorLacksOperandException::class);
@@ -148,5 +176,41 @@ class EvalMathExceptionsTest extends TestCase
     {
         $this->expectException(UnexpectedTokenException::class);
         $this->EvalMath->e('a=(3+)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testUnexpectedClosingPrenticeException()
+    {
+        $this->expectException(UnexpectedTokenException::class);
+        $this->EvalMath->e('a=5)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testUnexpectedComma()
+    {
+        $this->expectException(UnexpectedTokenException::class);
+        $this->EvalMath->e('a=5,3)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testUnexpectedComma2()
+    {
+        $this->expectException(UnexpectedTokenException::class);
+        $this->EvalMath->e('a=sin(0.3),3)');
+    }
+
+    /**
+     * @throws AbstractEvalMathException
+     */
+    public function testUnexpectedComma3()
+    {
+        $this->expectException(UnexpectedTokenException::class);
+        $this->EvalMath->e('a=sin(0.1,)');
     }
 }

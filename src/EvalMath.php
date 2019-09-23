@@ -488,22 +488,4 @@ class EvalMath
         }
         return $stack->pop();
     }
-    
-    # Prints the file name, function name, and
-    # line number which called your function
-    # (not this function, then one that  called 
-    # it to begin with) 
-    public function debugPrintCallingFunction()
-    {
-        $file = 'n/a';
-        $func = 'n/a'; 
-        $line = 'n/a';
-        $debugTrace = debug_backtrace();
-        if (isset($debugTrace[1])) {
-            $file = $debugTrace[1]['file'] ? $debugTrace[1]['file'] : 'n/a';
-            $line = $debugTrace[1]['line'] ? $debugTrace[1]['line'] : 'n/a';
-        }
-        if (isset($debugTrace[2])) $func = $debugTrace[2]['function'] ? $debugTrace[2]['function'] : 'n/a';
-        echo "\n$file, $func, $line\n";
-    }
 }

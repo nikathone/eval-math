@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ */
+
 namespace SergeR\Util\EvalMath;
 
 /**

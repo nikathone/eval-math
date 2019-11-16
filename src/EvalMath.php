@@ -22,6 +22,7 @@ use Tramasec\Util\EvalMath\Exception\UnexpectedTokenException;
 use Tramasec\Util\EvalMath\Methods\Conditional;
 use Tramasec\Util\EvalMath\Methods\Maximum;
 use Tramasec\Util\EvalMath\Methods\Minimum;
+use Tramasec\Util\EvalMath\Methods\Round;
 
 /**
  * Class EvalMath
@@ -80,7 +81,8 @@ class EvalMath
             ->set(new Conditional)
             ->set((new Conditional)->setName('iif'))
             ->set(new Maximum)
-            ->set(new Minimum);
+            ->set(new Minimum)
+            ->set(new Round);
     }
 
     /**

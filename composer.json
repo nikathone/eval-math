@@ -1,5 +1,5 @@
 {
-	"name" : "serger/eval-math",
+	"name" : "tramasec/eval-math",
 	"description" : "EvalMath",
 	"license": "BSD",
 	"type" : "library",

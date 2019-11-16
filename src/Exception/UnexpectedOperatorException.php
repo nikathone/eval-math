@@ -5,7 +5,7 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Exception;
+namespace Tramasec\Util\EvalMath\Exception;
 
 
 class UnexpectedOperatorException extends AbstractEvalMathException

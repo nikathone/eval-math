@@ -5,24 +5,24 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Tests;
+namespace Tramasec\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use SergeR\Util\EvalMath\EvalMath;
-use SergeR\Util\EvalMath\Exception\AbstractEvalMathException;
-use SergeR\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
-use SergeR\Util\EvalMath\Exception\ConstantAssignmentException;
-use SergeR\Util\EvalMath\Exception\DivisionByZeroException;
-use SergeR\Util\EvalMath\Exception\ExpectingTokenException;
-use SergeR\Util\EvalMath\Exception\IllegalCharacterException;
-use SergeR\Util\EvalMath\Exception\InternalErrorException;
-use SergeR\Util\EvalMath\Exception\InvalidArgumentCountException;
-use SergeR\Util\EvalMath\Exception\OperatorLacksOperandException;
-use SergeR\Util\EvalMath\Exception\OperatorRequiredException;
-use SergeR\Util\EvalMath\Exception\UndefinedVariableException;
-use SergeR\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
-use SergeR\Util\EvalMath\Exception\UnexpectedOperatorException;
-use SergeR\Util\EvalMath\Exception\UnexpectedTokenException;
+use Tramasec\Util\EvalMath\EvalMath;
+use Tramasec\Util\EvalMath\Exception\AbstractEvalMathException;
+use Tramasec\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
+use Tramasec\Util\EvalMath\Exception\ConstantAssignmentException;
+use Tramasec\Util\EvalMath\Exception\DivisionByZeroException;
+use Tramasec\Util\EvalMath\Exception\ExpectingTokenException;
+use Tramasec\Util\EvalMath\Exception\IllegalCharacterException;
+use Tramasec\Util\EvalMath\Exception\InternalErrorException;
+use Tramasec\Util\EvalMath\Exception\InvalidArgumentCountException;
+use Tramasec\Util\EvalMath\Exception\OperatorLacksOperandException;
+use Tramasec\Util\EvalMath\Exception\OperatorRequiredException;
+use Tramasec\Util\EvalMath\Exception\UndefinedVariableException;
+use Tramasec\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
+use Tramasec\Util\EvalMath\Exception\UnexpectedOperatorException;
+use Tramasec\Util\EvalMath\Exception\UnexpectedTokenException;
 
 class EvalMathExceptionsTest extends TestCase
 {

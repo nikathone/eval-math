@@ -3,7 +3,7 @@
  *
  */
 
-namespace SergeR\Util\EvalMath;
+namespace Tramasec\Util\EvalMath;
 
 /**
  * Class Stack

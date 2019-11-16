@@ -5,7 +5,7 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Methods;
+namespace Tramasec\Util\EvalMath\Methods;
 
 
 class Conditional extends AbstractMethod

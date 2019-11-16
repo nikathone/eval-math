@@ -5,13 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Tests;
+namespace Tramasec\Util\EvalMath\Tests;
 
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use SergeR\Util\EvalMath\Methods\Maximum;
-use SergeR\Util\EvalMath\MethodsRegistry;
+use Tramasec\Util\EvalMath\Methods\Maximum;
+use Tramasec\Util\EvalMath\MethodsRegistry;
 
 class MethodRegistryTest extends TestCase
 {

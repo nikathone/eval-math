@@ -7,10 +7,10 @@
  * Copyright (C) 8x8
  */
 
-namespace SergeR\Util\EvalMath\Tests;
+namespace Tramasec\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use SergeR\Util\EvalMath\EvalMath;
+use Tramasec\Util\EvalMath\EvalMath;
 
 class EvalMathTest extends TestCase
 {

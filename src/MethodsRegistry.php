@@ -5,13 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath;
+namespace Tramasec\Util\EvalMath;
 
 
 use ArrayAccess;
 use Countable;
 use RuntimeException;
-use SergeR\Util\EvalMath\Methods\AbstractMethod;
+use Tramasec\Util\EvalMath\Methods\AbstractMethod;
 
 class MethodsRegistry implements ArrayAccess, Countable
 {

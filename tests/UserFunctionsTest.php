@@ -5,11 +5,11 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Tests;
+namespace Tramasec\Util\EvalMath\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use SergeR\Util\EvalMath\EvalMath;
+use Tramasec\Util\EvalMath\EvalMath;
 
 class UserFunctionsTest extends TestCase
 {

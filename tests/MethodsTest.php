@@ -5,12 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace SergeR\Util\EvalMath\Tests;
+namespace Tramasec\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use SergeR\Util\EvalMath\Methods\Conditional;
-use SergeR\Util\EvalMath\Methods\Maximum;
-use SergeR\Util\EvalMath\Methods\Minimum;
+use Tramasec\Util\EvalMath\Methods\Conditional;
+use Tramasec\Util\EvalMath\Methods\Maximum;
+use Tramasec\Util\EvalMath\Methods\Minimum;
+use Tramasec\Util\EvalMath\Methods\Round;
 
 class MethodsTest extends TestCase
 {
@@ -41,5 +42,28 @@ class MethodsTest extends TestCase
         $this->assertEquals(0, $m->evaluate(1, 0));
         $this->assertEquals(0, $m->evaluate(false, 1, 0, 10));
         $this->assertEquals(1, $m->evaluate(1));
+    }
+
+    public function testRound()
+    {
+        $m = new Round();
+        $this->assertEquals('rnd', $m->getName());
+        $this->assertEquals([-1], $m->getArgumentCount());
+
+        $this->assertEquals(2, $m->evaluate(1.5321));
+        $this->assertEquals(1, $m->evaluate(1.4321));
+        $this->assertEquals(1, $m->evaluate(1.4921));
+
+        $this->assertEquals(1.57, $m->evaluate(1.5678, 2));
+        $this->assertEquals(1.568, $m->evaluate(1.5678, 3));
+        $this->assertEquals(1.5678, $m->evaluate(1.5678, 4));
+
+        $this->assertEquals(1.54, $m->evaluate(1.5378, 2));
+        $this->assertEquals(1.538, $m->evaluate(1.5378, 3));
+        $this->assertEquals(1.5378, $m->evaluate(1.5378, 4));
+
+        $this->assertEquals(1.53, $m->evaluate(1.5321, 2));
+        $this->assertEquals(1.532, $m->evaluate(1.5321, 3));
+        $this->assertEquals(1.5321, $m->evaluate(1.5321, 4));
     }
 }

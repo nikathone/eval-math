@@ -47,14 +47,14 @@ class MethodsTest extends TestCase
     public function testRound()
     {
         $m = new Round();
-        $this->assertEquals('rnd', $m->getName());
+        $this->assertEquals('round', $m->getName());
         $this->assertEquals([-1], $m->getArgumentCount());
 
         $this->assertEquals(2, $m->evaluate(1.5321));
         $this->assertEquals(1, $m->evaluate(1.4321));
         $this->assertEquals(1, $m->evaluate(1.4921));
 
-        $this->assertEquals(1.57, $m->evaluate(1.5678, 2));
+        $this->assertEquals(git add .1.57, $m->evaluate(1.5678, 2));
         $this->assertEquals(1.568, $m->evaluate(1.5678, 3));
         $this->assertEquals(1.5678, $m->evaluate(1.5678, 4));
 

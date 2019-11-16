@@ -5,7 +5,7 @@ namespace Tramasec\Util\EvalMath\Methods;
 
 class Round extends AbstractMethod
 {
-    protected $name = 'rnd';
+    protected $name = 'round';
 
     public function evaluate(...$args)
     {

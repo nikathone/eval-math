@@ -56,6 +56,7 @@ CALC METHODS (CALC FUNCTIONS)
 - `max(n...,m)` returns one of given arguments with maximal value
 - `min(n...,m)` returns one of given arguments with minimal value
 - `if(expr, true_value, false_value)` (has a `iif` synonym) returns `true_value` of `false_value` depends of `expr` evaluation result
+- `round(n,m)` returns rounded n value with m precision
 
 CREATE YOUR OWN CUSTOM CALC METHODS (CALC FUNCTIONS)
 -----------------------------------------------

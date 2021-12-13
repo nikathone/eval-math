@@ -5,13 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath;
+namespace Andileco\Util\EvalMath;
 
 
 use ArrayAccess;
 use Countable;
 use RuntimeException;
-use Tramasec\Util\EvalMath\Methods\AbstractMethod;
+use Andileco\Util\EvalMath\Methods\AbstractMethod;
 
 class MethodsRegistry implements ArrayAccess, Countable
 {

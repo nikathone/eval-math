@@ -5,11 +5,11 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Tests;
+namespace Andileco\Util\EvalMath\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use Tramasec\Util\EvalMath\EvalMath;
+use Andileco\Util\EvalMath\EvalMath;
 
 class UserFunctionsTest extends TestCase
 {

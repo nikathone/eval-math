@@ -5,13 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Tests;
+namespace Andileco\Util\EvalMath\Tests;
 
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Tramasec\Util\EvalMath\Methods\Maximum;
-use Tramasec\Util\EvalMath\MethodsRegistry;
+use Andileco\Util\EvalMath\Methods\Maximum;
+use Andileco\Util\EvalMath\MethodsRegistry;
 
 class MethodRegistryTest extends TestCase
 {

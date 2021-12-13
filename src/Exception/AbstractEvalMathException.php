@@ -5,7 +5,7 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Exception;
+namespace Andileco\Util\EvalMath\Exception;
 
 use Exception;
 

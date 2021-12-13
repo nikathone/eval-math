@@ -7,10 +7,10 @@
  * Copyright (C) 8x8
  */
 
-namespace Tramasec\Util\EvalMath\Tests;
+namespace Andileco\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tramasec\Util\EvalMath\EvalMath;
+use Andileco\Util\EvalMath\EvalMath;
 
 class EvalMathTest extends TestCase
 {

@@ -5,7 +5,7 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Methods;
+namespace Andileco\Util\EvalMath\Methods;
 
 
 class Maximum extends AbstractMethod

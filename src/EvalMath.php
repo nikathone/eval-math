@@ -3,26 +3,26 @@
  *
  */
 
-namespace Tramasec\Util\EvalMath;
+namespace Andileco\Util\EvalMath;
 
-use Tramasec\Util\EvalMath\Exception\AbstractEvalMathException;
-use Tramasec\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
-use Tramasec\Util\EvalMath\Exception\ConstantAssignmentException;
-use Tramasec\Util\EvalMath\Exception\DivisionByZeroException;
-use Tramasec\Util\EvalMath\Exception\ExpectingTokenException;
-use Tramasec\Util\EvalMath\Exception\IllegalCharacterException;
-use Tramasec\Util\EvalMath\Exception\InternalErrorException;
-use Tramasec\Util\EvalMath\Exception\InvalidArgumentCountException;
-use Tramasec\Util\EvalMath\Exception\OperatorLacksOperandException;
-use Tramasec\Util\EvalMath\Exception\OperatorRequiredException;
-use Tramasec\Util\EvalMath\Exception\UndefinedVariableException;
-use Tramasec\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
-use Tramasec\Util\EvalMath\Exception\UnexpectedOperatorException;
-use Tramasec\Util\EvalMath\Exception\UnexpectedTokenException;
-use Tramasec\Util\EvalMath\Methods\Conditional;
-use Tramasec\Util\EvalMath\Methods\Maximum;
-use Tramasec\Util\EvalMath\Methods\Minimum;
-use Tramasec\Util\EvalMath\Methods\Round;
+use Andileco\Util\EvalMath\Exception\AbstractEvalMathException;
+use Andileco\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
+use Andileco\Util\EvalMath\Exception\ConstantAssignmentException;
+use Andileco\Util\EvalMath\Exception\DivisionByZeroException;
+use Andileco\Util\EvalMath\Exception\ExpectingTokenException;
+use Andileco\Util\EvalMath\Exception\IllegalCharacterException;
+use Andileco\Util\EvalMath\Exception\InternalErrorException;
+use Andileco\Util\EvalMath\Exception\InvalidArgumentCountException;
+use Andileco\Util\EvalMath\Exception\OperatorLacksOperandException;
+use Andileco\Util\EvalMath\Exception\OperatorRequiredException;
+use Andileco\Util\EvalMath\Exception\UndefinedVariableException;
+use Andileco\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
+use Andileco\Util\EvalMath\Exception\UnexpectedOperatorException;
+use Andileco\Util\EvalMath\Exception\UnexpectedTokenException;
+use Andileco\Util\EvalMath\Methods\Conditional;
+use Andileco\Util\EvalMath\Methods\Maximum;
+use Andileco\Util\EvalMath\Methods\Minimum;
+use Andileco\Util\EvalMath\Methods\Round;
 
 /**
  * Class EvalMath

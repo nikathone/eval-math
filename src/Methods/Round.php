@@ -1,6 +1,6 @@
 <?php
 
-namespace Tramasec\Util\EvalMath\Methods;
+namespace Andileco\Util\EvalMath\Methods;
 
 
 class Round extends AbstractMethod

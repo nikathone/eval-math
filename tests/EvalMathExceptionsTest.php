@@ -5,24 +5,24 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Tests;
+namespace Andileco\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tramasec\Util\EvalMath\EvalMath;
-use Tramasec\Util\EvalMath\Exception\AbstractEvalMathException;
-use Tramasec\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
-use Tramasec\Util\EvalMath\Exception\ConstantAssignmentException;
-use Tramasec\Util\EvalMath\Exception\DivisionByZeroException;
-use Tramasec\Util\EvalMath\Exception\ExpectingTokenException;
-use Tramasec\Util\EvalMath\Exception\IllegalCharacterException;
-use Tramasec\Util\EvalMath\Exception\InternalErrorException;
-use Tramasec\Util\EvalMath\Exception\InvalidArgumentCountException;
-use Tramasec\Util\EvalMath\Exception\OperatorLacksOperandException;
-use Tramasec\Util\EvalMath\Exception\OperatorRequiredException;
-use Tramasec\Util\EvalMath\Exception\UndefinedVariableException;
-use Tramasec\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
-use Tramasec\Util\EvalMath\Exception\UnexpectedOperatorException;
-use Tramasec\Util\EvalMath\Exception\UnexpectedTokenException;
+use Andileco\Util\EvalMath\EvalMath;
+use Andileco\Util\EvalMath\Exception\AbstractEvalMathException;
+use Andileco\Util\EvalMath\Exception\BuiltInFunctionRedefinitionException;
+use Andileco\Util\EvalMath\Exception\ConstantAssignmentException;
+use Andileco\Util\EvalMath\Exception\DivisionByZeroException;
+use Andileco\Util\EvalMath\Exception\ExpectingTokenException;
+use Andileco\Util\EvalMath\Exception\IllegalCharacterException;
+use Andileco\Util\EvalMath\Exception\InternalErrorException;
+use Andileco\Util\EvalMath\Exception\InvalidArgumentCountException;
+use Andileco\Util\EvalMath\Exception\OperatorLacksOperandException;
+use Andileco\Util\EvalMath\Exception\OperatorRequiredException;
+use Andileco\Util\EvalMath\Exception\UndefinedVariableException;
+use Andileco\Util\EvalMath\Exception\UndefinedVariableInFunctionDefinitionException;
+use Andileco\Util\EvalMath\Exception\UnexpectedOperatorException;
+use Andileco\Util\EvalMath\Exception\UnexpectedTokenException;
 
 class EvalMathExceptionsTest extends TestCase
 {

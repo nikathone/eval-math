@@ -5,13 +5,13 @@
  * @license BSD 2.0
  */
 
-namespace Tramasec\Util\EvalMath\Tests;
+namespace Andileco\Util\EvalMath\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Tramasec\Util\EvalMath\Methods\Conditional;
-use Tramasec\Util\EvalMath\Methods\Maximum;
-use Tramasec\Util\EvalMath\Methods\Minimum;
-use Tramasec\Util\EvalMath\Methods\Round;
+use Andileco\Util\EvalMath\Methods\Conditional;
+use Andileco\Util\EvalMath\Methods\Maximum;
+use Andileco\Util\EvalMath\Methods\Minimum;
+use Andileco\Util\EvalMath\Methods\Round;
 
 class MethodsTest extends TestCase
 {

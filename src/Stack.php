@@ -3,7 +3,7 @@
  *
  */
 
-namespace Tramasec\Util\EvalMath;
+namespace Andileco\Util\EvalMath;
 
 /**
  * Class Stack

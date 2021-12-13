@@ -15,7 +15,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"andileco\\Util\\EvalMath\\" : "src/"
+			"Andileco\\Util\\EvalMath\\" : "src/"
 		}
 	},
     "extra": {

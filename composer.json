@@ -1,7 +1,7 @@
 {
 	"name" : "andileco/eval-math",
 	"description" : "EvalMath",
-	"license": "BSD",
+	"license": "BSD-3-Clause",
 	"type" : "library",
 	"keywords" : [
 		"EvalMath"

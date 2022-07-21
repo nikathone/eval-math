@@ -215,18 +215,18 @@ class EvalMath
     {
 
         $index = 0;
-        $stack = new Stack;
-        $output = array(); // postfix form of expression, to be passed to pfx()
+        $stack = new Stack();
+        $output = []; // postfix form of expression, to be passed to pfx()
         // $expr = trim(strtolower($expr));
         $expr = trim($expr);
 
         $ops = ['+', '-', '*', '/', '^', '_', '%', '>', '<', '<=', '>=', '=='];
         $ops_r = array('+' => 0, '-' => 0, '*' => 0, '/' => 0, '^' => 1, '%' => 0); // right-associative operator?
         $ops_p = ['+' => 0, '-' => 0, '*' => 1, '/' => 1, '_' => 1, '^' => 2, '%' => 1, '>' => 3, '<' => 3, '<=' => 3, '>=' => 3, '==' => 3]; // operator precedence
-        
+
         $expecting_op = false; // we use this in syntax-checking the expression
                                // and determining when a - is a negation
-    
+
         if (preg_match('/[^\%\w\s+*^\/()\.,-<>=]/', $expr, $matches)) { // make sure the characters are all good
             throw new IllegalCharacterException([':character'=>$matches[0]]);
         }
@@ -274,7 +274,7 @@ class EvalMath
                         $output[] = $o2;
                     }
                 }
-                if (preg_match("/^([A-Za-z]\w*)\($/", $stack->last(2), $matches)) { // did we just close a function?
+                if (preg_match("/^([A-Za-z]\w*)\($/", $stack->last(2) ?? '', $matches)) { // did we just close a function?
                     $fnn = $matches[1]; // get the function name
                     $arg_count = $stack->pop(); // see how many arguments there were (cleverly stored on the stack, thank you)
                     $fn = $stack->pop();
@@ -310,7 +310,7 @@ class EvalMath
                 }
                 // make sure there was a function
 //                if (!preg_match("/^([A-Za-z]\w*)\($/", $stack->last(2), $matches)) {
-                if (!preg_match('/^('.self::NAME_PATTERN.')\($/', $stack->last(2), $matches)) {
+                if (!preg_match('/^('.self::NAME_PATTERN.')\($/', $stack->last(2) ?? '', $matches)) {
                     throw new UnexpectedTokenException([':token'=>',']);
                 }
                 $stack->push($stack->pop()+1); // increment the argument count
@@ -347,7 +347,7 @@ class EvalMath
                     throw new UnexpectedTokenException([':token' => ')']);
                 }
                 // did we just close a function?
-                if (preg_match('/^(' . static::NAME_PATTERN . ')\($/', $stack->last(3), $matches)) {
+                if (preg_match('/^(' . static::NAME_PATTERN . ')\($/', $stack->last(3) ?? '', $matches)) {
                     $stack->pop();// (
                     $stack->pop();// 1
                     $fn = $stack->pop();
@@ -372,10 +372,10 @@ class EvalMath
                 }
                 break;
             }
-            while (substr($expr, $index, 1) == ' ') { // step the index past whitespace (pretty much turns whitespace 
+            while (substr($expr, $index, 1) == ' ') { // step the index past whitespace (pretty much turns whitespace
                 $index++;                             // into implicit multiplication if no operator is there)
             }
-        
+
         }
         while (!is_null($op = $stack->pop())) { // pop everything off the stack and push onto output
             if ($op == '(') { // if there are (s on the stack, ()s were unbalanced
@@ -402,9 +402,9 @@ class EvalMath
         if ($tokens == false) {
             return false;
         }
-    
+
         $stack = new Stack;
-        
+
         foreach ($tokens as $token) { // nice and easy
             if(is_array($token)) { // it's a function
                 $fnn = $token['fnn'];

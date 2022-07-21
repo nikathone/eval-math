@@ -38,28 +38,28 @@ class MethodsRegistry implements ArrayAccess, Countable
         return (isset($this->methods[$name]) and $this->methods[$name] instanceof AbstractMethod) ? $this->methods[$name] : null;
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->methods[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         $m = $this->findByName($offset);
         return $m ? $m->getArgumentCount() : null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         throw new RuntimeException('Use set() method instead');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->unsetByName($offset);
     }
 
-    public function count()
+    public function count(): int
     {
         return count($this->methods);
     }

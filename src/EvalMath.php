@@ -45,27 +45,27 @@ class EvalMath
     /**
      * @var array
      */
-    public $v = array('e'=>2.71,'pi'=>3.14); // variables (and constants)
+    public $v = ['e'=>2.71,'pi'=>3.14]; // variables (and constants)
 
     /**
      * @var array
      */
-    public $f = array(); // user-defined functions
+    public $f = []; // user-defined functions
 
     /**
      * @var array
      */
-    public $vb = array('e', 'pi'); // constants
+    public $vb = ['e', 'pi']; // constants
 
     /**
      * @var array
      */
-    public $fb = array(  // built-in functions
+    public $fb = [  // built-in functions
         'sin','sinh','arcsin','asin','arcsinh','asinh',
         'cos','cosh','arccos','acos','arccosh','acosh',
         'tan','tanh','arctan','atan','arctanh','atanh',
         'sqrt','abs','ln','log'
-    );
+    ];
 
     // Calc functions
 //    public $fc =['average'=>[-1], 'max'=>[-1], 'min'=>[-1], 'iif'=>[3]];
@@ -165,7 +165,7 @@ class EvalMath
                     }
                 }
             }
-            $this->f[$fnn] = array('args'=>$args, 'func'=>$stack);
+            $this->f[$fnn] = ['args'=>$args, 'func'=>$stack];
             return true;
         //===============
         } else {
@@ -188,7 +188,7 @@ class EvalMath
      */
     public function funcs()
     {
-        $output = array();
+        $output = [];
         foreach ($this->f as $fnn=>$dat)
             $output[] = $fnn . '(' . implode(',', $dat['args']) . ')';
 
@@ -221,7 +221,7 @@ class EvalMath
         $expr = trim($expr);
 
         $ops = ['+', '-', '*', '/', '^', '_', '%', '>', '<', '<=', '>=', '=='];
-        $ops_r = array('+' => 0, '-' => 0, '*' => 0, '/' => 0, '^' => 1, '%' => 0); // right-associative operator?
+        $ops_r = ['+' => 0, '-' => 0, '*' => 0, '/' => 0, '^' => 1, '%' => 0]; // right-associative operator?
         $ops_p = ['+' => 0, '-' => 0, '*' => 1, '/' => 1, '_' => 1, '^' => 2, '%' => 1, '>' => 3, '<' => 3, '<=' => 3, '>=' => 3, '==' => 3]; // operator precedence
 
         $expecting_op = false; // we use this in syntax-checking the expression
@@ -278,7 +278,7 @@ class EvalMath
                     $fnn = $matches[1]; // get the function name
                     $arg_count = $stack->pop(); // see how many arguments there were (cleverly stored on the stack, thank you)
                     $fn = $stack->pop();
-                    $output[] = array('fn' => $fn, 'fnn' => $fnn, 'argcount' => $arg_count); // send function to output
+                    $output[] = ['fn' => $fn, 'fnn' => $fnn, 'argcount' => $arg_count]; // send function to output
                     if (in_array($fnn, $this->fb)) { // check the argument count
                         if ($arg_count > 1) {
                             throw new InvalidArgumentCountException();
@@ -356,7 +356,7 @@ class EvalMath
                     if (!in_array(0, $counts)) {
                         throw new InvalidArgumentCountException([':given' => 0, ':accept' => $counts]);
                     }
-                    $output[] = array('fn' => $fn, 'fnn' => $fnn, 'argcount' => 0); // send function to output
+                    $output[] = ['fn' => $fn, 'fnn' => $fnn, 'argcount' => 0]; // send function to output
                     $index++;
                     $expecting_op = true;
                 }
@@ -397,13 +397,13 @@ class EvalMath
      * @throws InternalErrorException
      * @throws UndefinedVariableException
      */
-    public function pfx($tokens, $vars = array())
+    public function pfx($tokens, $vars = [])
     {
         if ($tokens == false) {
             return false;
         }
 
-        $stack = new Stack;
+        $stack = new Stack();
 
         foreach ($tokens as $token) { // nice and easy
             if(is_array($token)) { // it's a function
@@ -432,7 +432,7 @@ class EvalMath
                     $stack->push($res);
                 }elseif (array_key_exists($fnn, $this->f)) { // user function
                     // get args
-                    $args = array();
+                    $args = [];
                     for ($i = count($this->f[$fnn]['args'])-1; $i >= 0; $i--) {
                         if ( null === ($args[$this->f[$fnn]['args'][$i]] = $stack->pop())) {
                             throw new InternalErrorException();
@@ -441,7 +441,7 @@ class EvalMath
                     $stack->push($this->pfx($this->f[$fnn]['func'], $args)); // yay... recursion!!!!
                 }
 // if the token is a binary operator, pop two values off the stack, do the operation, and push the result back on
-            } elseif (in_array($token, array('+', '-', '*', '/', '^', '>', '<', '==', '<=', '>=', '%'), true)) {
+            } elseif (in_array($token, ['+', '-', '*', '/', '^', '>', '<', '==', '<=', '>=', '%'], true)) {
                 if (is_null($op2 = $stack->pop())) {
                     throw new InternalErrorException();
                 }
